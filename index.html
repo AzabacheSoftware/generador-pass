@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta property="og:image" content="/img/logo_pass.png" />
+	<title>Generador Contraseñas</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+	<link rel="stylesheet" href="css/estilos.css">
+	<link rel="stylesheet" href="fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+	<link rel="manifest" href="/manifest.json">
+	<link rel="shortcut icon" href="/img/icon.png" type="image/x-icon">
+</head>
+<body>
+	<div class="contenedor">
+		<div class="logo">
+			<img class"logo_pass" src="/img/logo_pass.png" width="100" alt="logo contraseña">
+			<h1 class="blinking-title">Generador de Contraseñas</h1>
+			
+			
+			<script>
+				let paragraph = document.getElementById('colorful-paragraph');
+				let colors = ['red', 'blue', 'green', 'orange', 'purple'];
+				let currentColorIndex = 0;
+			
+				setInterval(function() {
+				  paragraph.style.color = colors[currentColorIndex];
+				  currentColorIndex = (currentColorIndex + 1) % colors.length;
+				}, 2000);
+			  </script>
+		</div>
+		<form action="" class="app" id="app">
+			<div class="fila numero-caracteres">
+				<div class="col">
+					<label for="numero-caracteres">Numero de caracteres:</label>
+				</div>
+				<div class="col botones">
+					<div>
+						<button class="btn" id="btn-menos-uno"><i class="fas fa-minus"></i></button>
+					</div>
+					<div>
+						<input type="text" id="numero-caracteres" readonly value="12">
+					</div>
+					<div>
+						<button class="btn" id="btn-mas-uno"><i class="fas fa-plus"></i></button>
+					</div>
+				</div>
+			</div>
+			<div class="fila simbolos">
+				<div class="col">
+					<label for="simbolos">¿Incluir Simbolos?</label>
+				</div>
+				<div class="col">
+					<button class="btn" id="btn-simbolos"><i class="fas fa-check"></i></button>
+				</div>
+			</div>
+			<div class="fila numeros">
+				<div class="col">
+					<label for="numeros">¿Incluir Numeros?</label>
+				</div>
+				<div class="col">
+					<button class="btn" id="btn-numeros"><i class="fas fa-check"></i></button>
+				</div>
+			</div>
+			<div class="fila mayusculas">
+				<div class="col">
+					<label for="mayusculas">¿Incluir Mayusculas?</label>
+				</div>
+				<div class="col">
+					<button class="btn" id="btn-mayusculas"><i class="fas fa-check"></i></button>
+				</div>
+			</div>
+			<div class="fila generar">
+				<div class="col">
+					<button class="btn btn-generar" id="btn-generar">Generar <i class="fas fa-lock"></i></button>
+				</div>
+				<div class="col">
+					<input type="text" class="input-password" id="input-password" readonly value="T3sT">
+				</div>
+			</div>
+			<div class="fila alerta">
+				<div class="col">
+					<div class="alerta-copiado" id="alerta-copiado">
+						<p><i class="fas fa-copy"></i> Texto Copiado!</p>
+					</div>
+				</div>
+			</div>
+			<button id="install-button">Instalar</button>
+		</form>
+		<div class="creditos">
+			<p>🟡 Recomendación: Guardar<span> siempre</span> la contraseña generada</p>
+		</div>
+	</div>
+    
+	<script src="js/app.js"></script>
+	<script src="js/main.js"></script>
+	<script>
+		if ('serviceWorker' in navigator) {
+		  window.addEventListener('load', function() {
+			navigator.serviceWorker.register('/service-worker.js')
+			  .then(function(registration) {
+				console.log('Service Worker registrado con éxito:', registration);
+			  })
+			  .catch(function(error) {
+				console.log('Error al registrar el Service Worker:', error);
+			  });
+		  });
+	  
+		  window.addEventListener('beforeinstallprompt', function(event) {
+			event.preventDefault();
+			// Guardar el evento para mostrar el aviso de instalación cuando sea necesario
+			deferredPrompt = event;
+			// Mostrar el aviso de instalación (por ejemplo, un botón "Instalar" visible)
+			// Puedes personalizar la apariencia y el comportamiento del aviso según tus necesidades
+			// Por ejemplo, mostrar un botón de instalación personalizado y escuchar su evento de clic
+			showInstallPrompt();
+		  });
+	  
+		  // Función para mostrar el aviso de instalación
+		  function showInstallPrompt() {
+			// Mostrar el aviso de instalación según tu implementación
+			// Por ejemplo, mostrar un botón "Instalar" visible
+		  }
+	  
+		  // Función para instalar la PWA
+		  function installPWA() {
+			if (deferredPrompt) {
+			  // Mostrar el aviso de instalación nativo
+			  deferredPrompt.prompt();
+			  deferredPrompt.userChoice.then(function(choiceResult) {
+				if (choiceResult.outcome === 'accepted') {
+				  console.log('La instalación ha sido aceptada');
+				} else {
+				  console.log('La instalación ha sido rechazada');
+				}
+				// Reiniciar el aviso de instalación
+				deferredPrompt = null;
+			  });
+			}
+		  }
+		}
+	  </script>
+	  
+</body>
+</html>
